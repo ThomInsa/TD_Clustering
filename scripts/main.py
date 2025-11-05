@@ -26,9 +26,16 @@ def k_means(points_collection, cluster_number, initial_centroids=None, max_iter=
             else:
                 raise ValueError("initial_centroids must match (cluster_number, n_features)")
 
-    for _ in range(max_iter):
+    print("Initialized centroids:")
+    print(centroids)
+
+    for it in range(max_iter):
+        print(f"Iteration {it + 1} / {max_iter}")
         distances = np.linalg.norm(points[:, None, :] - centroids[None, :, :], axis=2)
         labels = np.argmin(distances, axis=1)
+
+        counts = np.bincount(labels, minlength=cluster_number)
+        print(" Cluster sizes:", counts)
 
         new_centroids = np.empty((cluster_number, n_features), dtype=float)
         for i in range(cluster_number):
@@ -36,19 +43,28 @@ def k_means(points_collection, cluster_number, initial_centroids=None, max_iter=
             if assigned.size:
                 new_centroids[i] = assigned.mean(axis=0)
             else:
+                print(f"  Cluster {i} empty; keeping previous centroid")
                 new_centroids[i] = centroids[i]
+
+        shifts = np.linalg.norm(new_centroids - centroids, axis=1)
+        max_shift = shifts.max() if shifts.size else 0.0
+        print(" Centroid shifts:", shifts, "max:", max_shift)
 
         if np.allclose(new_centroids, centroids, atol=tol):
             centroids = new_centroids
+            print(f"Converged at iteration {it + 1}, max shift {max_shift:.6g}")
             break
         centroids = new_centroids
 
-    # ensure labels correspond to final centroids
     distances = np.linalg.norm(points[:, None, :] - centroids[None, :, :], axis=2)
     labels = np.argmin(distances, axis=1)
 
     clusters = [points[labels == i] for i in range(cluster_number)]
     sse = sum_of_squared_errors(clusters)
+
+    print("Final centroids:")
+    print(centroids)
+    print(f"Final SSE: {sse:.6g}")
 
     return centroids, sse
 
