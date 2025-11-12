@@ -61,10 +61,20 @@ On étudie le dataset `country-data` qui contient 9 attributs de 167 pays.
 
 En premier lieu on peut visualiser la distribution de chaque attribut : 
 
-![301.png](30/301.png)
+![301.png](31/311.png)
 
 On remarque que celles-ci ont des formes similaires, normales, log-normales ou bi-modales, des 
 cas classiques en analyse de données.
 
 En revanche, les données deviennent très différentes dès lors que l'on analyse des paramètres 
 plus précis _(intervalles de valeurs, écart-types, moyennes, médianes ...)_
+
+On applique alors une PCA pour faciliter l'interprétation et la visualisation des données.
+
+- Les variables initiales, corrélées et de natures différentes, sont donc transformées en un 
+  nouveau jeu de variables non corrélées appelées __composantes principales__.
+- Avant cette transformation, les données sont normalisées pour éviter qu’une variable à grande échelle domine les autres.
+
+![321.png](32/321.png)
+![322.png](32/322.png)
+![323.png](32/323.png)
