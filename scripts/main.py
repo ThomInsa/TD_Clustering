@@ -1,5 +1,27 @@
 import numpy as np
 import pandas as pd
+import csv
+
+def parse_csv(file_path, ignore_headers=False):
+
+    data = []
+    with open(file_path, 'r', newline='') as csvfile:
+        reader = csv.reader(csvfile)
+        
+        if ignore_headers:
+            next(reader, None)  # Skip the header row
+        
+        for row in reader:
+            parsed_row = []
+            for value in row:
+                try:
+                    # Try to convert to float
+                    parsed_row.append(float(value))
+                except ValueError:
+                    # If conversion fails, keep as string
+                    parsed_row.append(value)
+            data.append(parsed_row)
+    return data
 
 def k_means(points_collection, cluster_number, initial_centroids=None, max_iter=100, tol=1e-6):
     points = np.asarray(points_collection, dtype=float)
