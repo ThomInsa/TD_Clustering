@@ -51,3 +51,20 @@ Le code proposé dans le sujet permet d'obtenir les résultats suivants pour le 
 - [0 0 1 1 2]
 
 >On devine que l'algo de `sklearn` renvoie une liste contenant le numéro de cluster de chaque point.
+
+# II. Clustering hiérarchique
+cf notebook associé
+
+# III. Étude de cas
+
+On étudie le dataset `country-data` qui contient 9 attributs de 167 pays.
+
+En premier lieu on peut visualiser la distribution de chaque attribut : 
+
+![301.png](30/301.png)
+
+On remarque que celles-ci ont des formes similaires, normales, log-normales ou bi-modales, des 
+cas classiques en analyse de données.
+
+En revanche, les données deviennent très différentes dès lors que l'on analyse des paramètres 
+plus précis _(intervalles de valeurs, écart-types, moyennes, médianes ...)_
