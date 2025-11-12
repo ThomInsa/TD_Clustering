@@ -95,6 +95,73 @@ def plot_kmeans_step(points, labels, centroids, iteration=0, column_names=None):
     plt.tight_layout()
     plt.show()
 
+def plot_kmeans_clusters(data, labels, centroids, country_names=None, title='K-means Clustering', figsize=(12, 10)):
+    """
+    Plot k-means clustering results in 2D with country labels.
+    
+    Parameters:
+    - data: array-like shape (n_samples, 2) - 2D points
+    - labels: array-like - cluster labels for each point
+    - centroids: array-like shape (k, 2) - centroid coordinates
+    - country_names: list of strings - labels for each point
+    - title: string - plot title
+    - figsize: tuple - figure size
+    """
+    data_array = np.asarray(data)
+    labels_array = np.asarray(labels)
+    centroids_array = np.asarray(centroids)
+    
+    plt.figure(figsize=figsize)
+    
+    # Plot points colored by cluster
+    colors = ['red', 'blue', 'green', 'orange', 'purple', 'brown', 'pink']
+    n_clusters = len(centroids_array)
+    
+    for i in range(n_clusters):
+        cluster_points = data_array[labels_array == i]
+        plt.scatter(cluster_points[:, 0], cluster_points[:, 1], 
+                   c=colors[i % len(colors)], label=f'Cluster {i+1}', s=30, alpha=0.6)
+    
+    # Plot centroids
+    plt.scatter(centroids_array[:, 0], centroids_array[:, 1], 
+               c='black', marker='X', s=300, edgecolors='yellow', linewidths=2,
+               label='Centroïdes')
+    
+    # Add country labels if provided
+    if country_names:
+        for i, country in enumerate(country_names):
+            plt.annotate(country, (data_array[i, 0], data_array[i, 1]), 
+                        fontsize=7, alpha=0.7, ha='right')
+    
+    plt.title(title)
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.show()
+
+
+def plot_hierarchical_dendrogram(linkage_matrix, labels=None, method_name='', 
+                                 orientation='right', figsize=(10, 16)):
+    """
+    Plot hierarchical clustering dendrogram.
+    
+    Parameters:
+    - linkage_matrix: result from scipy.cluster.hierarchy.linkage
+    - labels: list of strings - labels for each point
+    - method_name: string - 'Single Link', 'Complete Link', etc.
+    - orientation: 'right', 'left', 'top', or 'bottom'
+    - figsize: tuple - figure size
+    """
+    from scipy.cluster.hierarchy import dendrogram
+    
+    plt.figure(figsize=figsize)
+    dendrogram(linkage_matrix, labels=labels, orientation=orientation, leaf_font_size=8)
+    plt.title(f'Clustering hiérarchique - {method_name}')
+    plt.xlabel('Distance')
+    plt.tight_layout()
+    plt.show()
+
+
 def plot_feature_distributions(df=None, csv_path=None, features=None, kind='kde',
                                bins=30, per_row=3, overlay=False, figsize=None,
                                palette='husl', log_scale=False, legend=True,
