@@ -2,6 +2,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from scipy.cluster.hierarchy import dendrogram
 
 
 def plot_points_on_line(df, column_name):
@@ -24,14 +25,6 @@ def plot_points_2d(df, x_column, y_column):
     plt.show()
 
 def plot_kmeans_step(points, labels, centroids, iteration=0, column_names=None):
-    """
-    Visualize k-means step.
-    - points: array-like shape (n_samples, n_features) or (n_samples,) for 1D
-    - labels: array-like of ints length n_samples
-    - centroids: array-like shape (k, n_features) or (k,) for 1D
-    - iteration: integer used for title
-    - column_names: list like ['X','Y'] or ['Feature'] for axis labels
-    """
     pts = np.asarray(points)
     ctr = np.asarray(centroids)
     lbl = np.asarray(labels, dtype=int)
@@ -96,17 +89,6 @@ def plot_kmeans_step(points, labels, centroids, iteration=0, column_names=None):
     plt.show()
 
 def plot_kmeans_clusters(data, labels, centroids, country_names=None, title='K-means Clustering', figsize=(12, 10)):
-    """
-    Plot k-means clustering results in 2D with country labels.
-    
-    Parameters:
-    - data: array-like shape (n_samples, 2) - 2D points
-    - labels: array-like - cluster labels for each point
-    - centroids: array-like shape (k, 2) - centroid coordinates
-    - country_names: list of strings - labels for each point
-    - title: string - plot title
-    - figsize: tuple - figure size
-    """
     data_array = np.asarray(data)
     labels_array = np.asarray(labels)
     centroids_array = np.asarray(centroids)
@@ -140,19 +122,7 @@ def plot_kmeans_clusters(data, labels, centroids, country_names=None, title='K-m
     plt.show()
 
 
-def plot_hierarchical_dendrogram(linkage_matrix, labels=None, method_name='', 
-                                 orientation='right', figsize=(10, 16)):
-    """
-    Plot hierarchical clustering dendrogram.
-    
-    Parameters:
-    - linkage_matrix: result from scipy.cluster.hierarchy.linkage
-    - labels: list of strings - labels for each point
-    - method_name: string - 'Single Link', 'Complete Link', etc.
-    - orientation: 'right', 'left', 'top', or 'bottom'
-    - figsize: tuple - figure size
-    """
-    from scipy.cluster.hierarchy import dendrogram
+def plot_hierarchical_dendrogram(linkage_matrix, labels=None, method_name='', orientation='right', figsize=(10, 16)):
     
     plt.figure(figsize=figsize)
     dendrogram(linkage_matrix, labels=labels, orientation=orientation, leaf_font_size=8)
@@ -162,27 +132,7 @@ def plot_hierarchical_dendrogram(linkage_matrix, labels=None, method_name='',
     plt.show()
 
 
-def plot_feature_distributions(df=None, csv_path=None, features=None, kind='kde',
-                               bins=30, per_row=3, overlay=False, figsize=None,
-                               palette='husl', log_scale=False, legend=True,
-                               bw_method=None):
-    """
-    Plot distribution for each numeric feature in the Country-data.csv (or provided DataFrame).
-
-    Parameters:
-    - df: pandas.DataFrame or None. If None, csv_path must be provided.
-    - csv_path: path to CSV file to load if df is None.
-    - features: list of column names to plot. Defaults to all numeric cols except 'country'.
-    - kind: 'kde' or 'hist' (kde uses sns.kdeplot, hist uses sns.histplot).
-    - bins: number of bins for histplots.
-    - per_row: number of subplots per row when not overlaying.
-    - overlay: if True, overlay all feature distributions on one Axes with a legend.
-    - figsize: tuple for figure size; if None it's auto-calculated.
-    - palette: seaborn palette name or list of colors.
-    - log_scale: if True, set x-axis to log scale.
-    - legend: whether to show legend.
-    - bw_method: passed to sns.kdeplot as bw_method (None uses default).
-    """
+def plot_feature_distributions(df=None, csv_path=None, features=None, kind='kde', bins=30, per_row=3, overlay=False, figsize=None, palette='husl', log_scale=False, legend=True, bw_method=None):
     if df is None:
         if csv_path is None:
             raise ValueError("Either 'df' or 'csv_path' must be provided.")
