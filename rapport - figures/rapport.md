@@ -57,6 +57,8 @@ cf notebook associé
 
 # III. Étude de cas
 
+## Préparation des données
+
 On étudie le dataset `country-data` qui contient 9 attributs de 167 pays.
 
 En premier lieu on peut visualiser la distribution de chaque attribut : 
@@ -75,6 +77,14 @@ On applique alors une PCA pour faciliter l'interprétation et la visualisation d
   nouveau jeu de variables non corrélées appelées __composantes principales__.
 - Avant cette transformation, les données sont normalisées pour éviter qu’une variable à grande échelle domine les autres.
 
+
+## Génération des figures
+
+Maintenant que l'on a un jeu de données centré, réduit, et avec seulement deux dimensions, on peut générer des visualisations. De la même manière que dans les exercices précédents, on va donc générer :
+- Deux visualisations de clustering k-means , avec respectivement `k=2`et `k=3`
+- Deux visualisations de clustering hiérarchique, pour single link et complete link
+
 ![321.png](32/321.png)
+![alt text](32/324.png)
 ![322.png](32/322.png)
 ![323.png](32/323.png)
